@@ -3,6 +3,7 @@
 FileReader new_reader(const char *FILE_NAME)
 {
     FILE *file = fopen(FILE_NAME, "r");
+
     fseek(file, 0L, SEEK_END);
     size_t file_size = ftell(file);
     fseek(file, 0L, SEEK_SET);
