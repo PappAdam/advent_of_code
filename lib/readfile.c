@@ -1,8 +1,13 @@
-#include "readfile.h"
+#include "inc/readfile.h"
 
 FileReader new_reader(const char *FILE_NAME)
 {
     FILE *file = fopen(FILE_NAME, "r");
+
+    if (!file)
+    {
+        printf("Failed to open file: %s\n", FILE_NAME);
+    }
 
     fseek(file, 0L, SEEK_END);
     size_t file_size = ftell(file);
