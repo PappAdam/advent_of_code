@@ -17,8 +17,8 @@ int main()
         free_string_vec(&splitLine);
     }
 
-    sort_array(left_col.content, left_col.len);
-    sort_array(right_col.content, right_col.len);
+    sort_array(left_col.ptr, left_col.len);
+    sort_array(right_col.ptr, right_col.len);
 
     size_t sum1 = 0;
     size_t sum2 = 0;

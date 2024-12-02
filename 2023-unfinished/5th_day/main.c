@@ -19,7 +19,7 @@ find_range_index(RangeVector *ranges, size_t value)
 
     for (size_t i = 0; i < ranges->len; i++)
     {
-        if (value > ranges->content[i].src && value < ranges->content[i].src + ranges->content[i].len - 1)
+        if (value > ranges->ptr[i].src && value < ranges->ptr[i].src + ranges->ptr[i].len - 1)
         {
             range_index = i;
             break;
@@ -42,7 +42,7 @@ get_location(uint64_t seed, RangeVector *convert_ranges)
         {
             continue;
         }
-        Range range = ranges.content[range_index];
+        Range range = ranges.ptr[range_index];
 
         converted_val = (converted_val - range.src) + range.dst;
     }
@@ -64,7 +64,7 @@ int main()
     size_t lowest = ~0;
     for (size_t i = 0; i < seeds.len; i++)
     {
-        size_t current = get_location(seeds.content[i], convert_ranges);
+        size_t current = get_location(seeds.ptr[i], convert_ranges);
         if (current < lowest)
         {
             lowest = current;
@@ -74,9 +74,9 @@ int main()
 
     for (size_t i = 0; i < 7; i++)
     {
-        free(convert_ranges[i].content);
+        free(convert_ranges[i].ptr);
     }
-    free(seeds.content);
+    free(seeds.ptr);
     drop_file(&reader);
 }
 

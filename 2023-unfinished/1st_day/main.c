@@ -47,17 +47,17 @@ const LetterDigit digit_lookup[] = {
     },
 };
 
-uint8_t check_digit(char *c)
+uint8_t check_digit(char *ptr)
 {
-    if (*c > '0' && *c <= '9')
+    if (*ptr > '0' && *ptr <= '9')
     {
-        return *c - 48;
+        return *ptr - 48;
     }
 
 #ifdef TASK2
     for (uint8_t j = 0; j < 9; j++)
     {
-        if (!memcmp(c, digit_lookup[j].letters, strlen(digit_lookup[j].letters)))
+        if (!memcmp(ptr, digit_lookup[j].letters, strlen(digit_lookup[j].letters)))
         {
             return digit_lookup[j].actual;
         }

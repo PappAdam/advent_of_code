@@ -12,16 +12,16 @@ typedef struct _scratchcard
 } ScratchCard;
 DEFINE_VEC(ScratchCard);
 
-bool is_digit(char c)
+bool is_digit(char ptr)
 {
-    return (c >= '0' && c <= '9');
+    return (ptr >= '0' && ptr <= '9');
 }
 
 bool is_winning_num(uint8_tVector *vec, uint8_t number)
 {
     for (size_t i = 0; i < vec->len; i++)
     {
-        if (number == vec->content[i])
+        if (number == vec->ptr[i])
         {
             return true;
         }
@@ -88,7 +88,7 @@ size_t get_points(char *line, ScratchCardVector *sc_vec)
                                  .numbers_won = numbers_won,
                                  .quantity = 1});
 
-    free(winning_numbers.content);
+    free(winning_numbers.ptr);
 
     return points;
 }
@@ -98,12 +98,12 @@ size_t get_total_cards(ScratchCardVector *sc_vec)
     size_t total = 0;
     for (size_t i = 0; i < sc_vec->len; i++)
     {
-        total += sc_vec->content[i].quantity;
-        for (size_t j = 0; j < sc_vec->content[i].numbers_won; j++)
+        total += sc_vec->ptr[i].quantity;
+        for (size_t j = 0; j < sc_vec->ptr[i].numbers_won; j++)
         {
             if (i + j + 1 < sc_vec->len)
             {
-                sc_vec->content[i + j + 1].quantity += sc_vec->content[i].quantity;
+                sc_vec->ptr[i + j + 1].quantity += sc_vec->ptr[i].quantity;
             }
         }
     }
@@ -123,5 +123,5 @@ int main()
     printf("task 1: %i\n", sum);
     printf("task 2: %i\n", get_total_cards(&sc_vec));
     drop_file(&reader);
-    free(sc_vec.content);
+    free(sc_vec.ptr);
 }

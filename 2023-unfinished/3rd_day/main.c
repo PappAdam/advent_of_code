@@ -6,20 +6,20 @@ typedef char *string;
 
 DEFINE_VEC(string);
 
-bool is_symbol(char c)
+bool is_symbol(char ptr)
 {
-    return ((c < '0' || c > '9') && c != '.');
+    return ((ptr < '0' || ptr > '9') && ptr != '.');
 }
 
-bool is_digit(char c)
+bool is_digit(char ptr)
 {
-    return (c >= '0' && c <= '9');
+    return (ptr >= '0' && ptr <= '9');
 }
 
 bool has_surrounding_symbol(stringVector *vec, size_t i, size_t j)
 {
     size_t y_max = vec->len - 1;
-    size_t x_max = strlen(vec->content[i]) - 2;
+    size_t x_max = strlen(vec->ptr[i]) - 2;
 
     for (int y = -1; y <= 1; y++)
     {
@@ -39,7 +39,7 @@ bool has_surrounding_symbol(stringVector *vec, size_t i, size_t j)
                 continue;
             }
 
-            if (is_symbol(vec->content[cur_y][cur_x]))
+            if (is_symbol(vec->ptr[cur_y][cur_x]))
             {
                 return true;
             }
@@ -53,13 +53,13 @@ size_t get_part_sum(stringVector *vec)
     size_t sum = 0;
     for (size_t i = 0; i < vec->len; i++)
     {
-        size_t line_len = strlen(vec->content[i]);
+        size_t line_len = strlen(vec->ptr[i]);
         bool has_symbol = false;
         size_t number = 0;
         for (size_t j = 0; j < line_len; j++)
         {
-            char c = vec->content[i][j];
-            if (!is_digit(c))
+            char ptr = vec->ptr[i][j];
+            if (!is_digit(ptr))
             {
                 if (number != 0)
                 {
@@ -80,7 +80,7 @@ size_t get_part_sum(stringVector *vec)
             }
 
             number *= 10;
-            number += c - 48;
+            number += ptr - 48;
         }
     }
 
@@ -109,30 +109,30 @@ size_t get_ratio(stringVector *vec, size_t i, size_t j)
         {
             size_t x = cx + j;
             size_t y = cy + i;
-            uint16_t number = vec->content[y][x] - 48;
+            uint16_t number = vec->ptr[y][x] - 48;
             if (skip)
             {
                 skip = false;
                 continue;
             }
 
-            if (is_digit(vec->content[y][x]))
+            if (is_digit(vec->ptr[y][x]))
             {
                 has_middle = false;
                 uint8_t digit_diff = 1;
                 int tens = 10;
-                while (is_digit(vec->content[y][x - digit_diff]))
+                while (is_digit(vec->ptr[y][x - digit_diff]))
                 {
-                    number += (vec->content[y][x - digit_diff] - 48) * tens;
+                    number += (vec->ptr[y][x - digit_diff] - 48) * tens;
                     tens *= 10;
                     digit_diff++;
                 }
 
                 digit_diff = 1;
-                while (is_digit(vec->content[y][x + digit_diff]))
+                while (is_digit(vec->ptr[y][x + digit_diff]))
                 {
                     number *= 10;
-                    number += vec->content[y][x + digit_diff] - 48;
+                    number += vec->ptr[y][x + digit_diff] - 48;
                     digit_diff++;
                 }
 
@@ -158,11 +158,11 @@ size_t get_ratio_sum(stringVector *vec)
     size_t sum = 0;
     for (size_t i = 0; i < vec->len; i++)
     {
-        size_t line_len = strlen(vec->content[i]);
+        size_t line_len = strlen(vec->ptr[i]);
         for (size_t j = 0; j < line_len; j++)
         {
-            char c = vec->content[i][j];
-            if (c == '*')
+            char ptr = vec->ptr[i][j];
+            if (ptr == '*')
             {
                 sum += get_ratio(vec, i, j);
             }
@@ -189,9 +189,9 @@ int main()
 
     for (size_t i = 0; i < matrix.len; i++)
     {
-        free(matrix.content[i]);
+        free(matrix.ptr[i]);
     }
 
-    free(matrix.content);
+    free(matrix.ptr);
     drop_file(&reader);
 }

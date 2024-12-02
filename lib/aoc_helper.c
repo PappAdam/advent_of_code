@@ -3,16 +3,16 @@
 DEFINE_VEC(string);
 DEFINE_VEC(uint32_t);
 
-bool is_digit(char c)
+bool is_digit(char ptr)
 {
-    return (c >= '0' && c <= '9');
+    return (ptr >= '0' && ptr <= '9');
 }
 
 void swap(int *a, int *b)
 {
-    int c = *a;
+    int ptr = *a;
     *a = *b;
-    *b = c;
+    *b = ptr;
 }
 
 void sort_array(uint32_t *array, size_t len)
@@ -53,7 +53,7 @@ stringVector split_string_by(char *input, char *separator)
         {
             string new_str = malloc(i - last_segment_index + 1);
             memcpy(new_str, input + last_segment_index, i - last_segment_index);
-            new_str[i - last_segment_index + 1] = '\0';
+            new_str[i - last_segment_index] = '\0';
             push_string(&result, new_str);
             last_segment_index = i + j;
         }
