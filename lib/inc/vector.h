@@ -20,6 +20,17 @@
         vec->capacity = 0;                                                                      \
     }                                                                                           \
                                                                                                 \
+    type##Vector copy_##type##_vec(type##Vector *vec)                                           \
+    {                                                                                           \
+        type *ptr = malloc(vec->len * sizeof(type));                                            \
+        memcpy(ptr, vec->ptr, sizeof(type) * vec->len);                                         \
+        return (type##Vector){                                                                  \
+            .ptr = ptr,                                                                         \
+            .len = vec->len,                                                                    \
+            .capacity = vec->len,                                                               \
+        };                                                                                      \
+    }                                                                                           \
+                                                                                                \
     void push_##type(type##Vector *vec, type value)                                             \
     {                                                                                           \
         if (vec->len + 1 >= vec->capacity)                                                      \
@@ -77,6 +88,7 @@
                                                                      \
     type##Vector new_##type##_vec(size_t capacity);                  \
     void free_##type##_vec(type##Vector *vec);                       \
+    type##Vector copy_##type##_vec(type##Vector *vec);               \
     void push_##type(type##Vector *vec, type value);                 \
     void append_##type##_vec(type##Vector *dest, type##Vector *src); \
     void join_##type##_vec(type##Vector *dest, type##Vector *src);   \
