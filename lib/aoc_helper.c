@@ -1,11 +1,12 @@
 #include "inc/aoc_helper.h"
 
 DEFINE_VEC(string);
+DEFINE_VEC(stringVector);
 DEFINE_VEC(uint32_t);
 
-bool is_digit(char ptr)
+bool is_digit(char c)
 {
-    return (ptr >= '0' && ptr <= '9');
+    return (c >= '0' && c <= '9');
 }
 
 void swap(int *a, int *b)

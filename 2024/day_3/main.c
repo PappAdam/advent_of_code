@@ -14,16 +14,17 @@ int main()
         {
             if (!memcmp(&line[i], "do()", 4))
             {
-
                 active = true;
+                i += 3;
             }
-            if (!memcmp(&line[i], "don't()", 7))
+            else if (!memcmp(&line[i], "don't()", 7))
             {
 
                 active = false;
+                i += 6;
             }
 
-            if (!memcmp(&line[i], "mul(", 4))
+            else if (active && !memcmp(&line[i], "mul(", 4))
             {
                 int l = i + 4;
                 int num_i = 0;
@@ -43,7 +44,6 @@ int main()
 
                 if (line[l] == ')' && num_i == 1)
                 {
-                    if (active)
                         sum += nums[0] * nums[1];
                 }
 
