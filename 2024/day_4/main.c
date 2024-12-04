@@ -51,17 +51,16 @@ void p2(stringVector *mat)
         {
             if (mat->ptr[y][x] == 'A')
             {
-                int c = 0;
                 int i;
                 for (i = -1; i <= 1; i += 2)
                 {
-                    if ((mat->ptr[y + 1][x + i] == 'M' && mat->ptr[y - 1][x - i] == 'S') || (mat->ptr[y + 1][x + i] == 'S' && mat->ptr[y - 1][x - i] == 'M'))
+                    if (!((mat->ptr[y + 1][x + i] == 'M' && mat->ptr[y - 1][x - i] == 'S') || (mat->ptr[y + 1][x + i] == 'S' && mat->ptr[y - 1][x - i] == 'M')))
                     {
-                        c++;
+                        break;
                     }
                 }
 
-                if (c == 2)
+                if (i > 1)
                 {
                     sum += 1;
                 }
