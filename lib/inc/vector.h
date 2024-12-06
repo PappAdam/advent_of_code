@@ -94,3 +94,4 @@
     void join_##type##_vec(type##Vector *dest, type##Vector *src);   \
     type get_##type(type##Vector *vec, unsigned long index);         \
     void remove_##type(type##Vector *vec, size_t index, size_t n);
+
