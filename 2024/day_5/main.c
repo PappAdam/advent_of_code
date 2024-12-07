@@ -27,24 +27,26 @@ bool check_page_numbers(uint32_tVector *pagenums, uint32_tVectorVector *rules, i
 int sort_nums(uint32_tVector *pagenums, uint32_tVectorVector *rules, uint32_tVector *nums)
 {
     bool swapped = false;
+    // for (int k = 0; k < nums->len; k++)
+    // {
+    //     printf("%i, ", nums->ptr[k]);
+    // }
+    printf("\n");
+
     for (int i = nums->len - 1; i >= 0; i--)
     {
-        printf("%i\n\t", nums->ptr[i]);
         for (int j = 0; j < i; j++)
         {
-            printf("%i,", nums->ptr[j]);
             if (!check_page_numbers(pagenums, rules, nums->ptr[i], nums->ptr[j]))
             {
-                printf("\n%i, %i\n", nums->ptr[i], nums->ptr[j]);
                 swap(&nums->ptr[i], &nums->ptr[j]);
+
                 swapped = true;
-                i -= 1;
+                i += 1;
                 break;
             }
         }
-        printf("\n");
     }
-    printf("\n");
     if (swapped)
     {
         return nums->ptr[(nums->len - 1) / 2];
