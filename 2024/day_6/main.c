@@ -1,6 +1,6 @@
 #include "../../lib/inc/aoc_helper.h"
 
-#define MSIZE 10
+#define MSIZE 130
 
 DEFINE_VEC_HEADER(uint8_t);
 DEFINE_VEC(uint8_t);
@@ -16,10 +16,15 @@ typedef enum _dir
 Dir arr_to_enum(int *dir)
 {
 
-    int a = 1 << (3 + ((dir[0] + 1) / 2));
-    int b = 1 << ((dir[1] + 1) / 2);
+    int a = abs(dir[0]) << (2 + ((dir[0] + 1) / 2));
+    int b = abs(dir[1]) << ((dir[1] + 1) / 2);
 
     return a | b;
+}
+
+bool inside_bounds(int y, int x)
+{
+    return y > -1 && y < MSIZE && x > -1 && x < MSIZE;
 }
 
 int main()
@@ -39,6 +44,10 @@ int main()
                 pos[0] = i;
                 pos[1] = j;
             }
+            if (line[j] == '.')
+            {
+                line[j] = 0;
+            }
         }
         lines[i] = line;
     }
@@ -47,10 +56,15 @@ int main()
     int distinct = 1;
     lines[pos[0]][pos[1]] |= arr_to_enum(&dir);
     int sum = 0;
-    while (pos[0] > -1 && pos[0] < MSIZE && pos[1] > -1 && pos[1] < MSIZE)
+    while (inside_bounds(pos[0], pos[1]))
     {
         int y = pos[0] - dir[0];
         int x = pos[1] + dir[1];
+
+        if (!inside_bounds(y, x))
+        {
+            break;
+        }
 
         if (lines[y][x] == '#')
         {
@@ -62,39 +76,66 @@ int main()
         {
             bool circular = false;
             int sw = lines[y][x];
-            lines[y][x] = "#";
+            lines[y][x] = '#';
             int tempdir[] = {dir[0], dir[1]};
+            int tempmatrix[MSIZE][MSIZE] = {0};
+            tempmatrix[pos[0]][pos[1]] |= arr_to_enum(&dir);
             while (pos[0] > -1 && pos[0] < MSIZE && pos[1] > -1 && pos[1] < MSIZE)
             {
                 int ny = pos[0] - dir[0];
                 int nx = pos[1] + dir[1];
+
+                if (!inside_bounds(ny, nx))
+                {
+                    break;
+                }
+                int edir = arr_to_enum(&dir);
 
                 if (lines[ny][nx] == '#')
                 {
                     int sw = dir[1];
                     dir[1] = dir[0];
                     dir[0] = sw * -1;
-                }
-                else
-                {
                     int edir = arr_to_enum(&dir);
-                    if (lines[ny][nx] | edir == edir || lines[ny][nx] | (edir << 4) == edir << 4)
+
+                    if ((tempmatrix[pos[0] - dir[0]][pos[1] + dir[1]] & edir) == edir)
                     {
                         circular = true;
                         break;
                     }
-
-                    lines[ny][nx] |= edir;
+                }
+                else
+                {
                     pos[0] = ny;
                     pos[1] = nx;
-                }
-                for (int i = 0; i < MSIZE; i++)
-                {
-                    printf("%s\n", lines[i]);
+                    tempmatrix[ny][nx] |= edir;
                 }
             }
+
             if (circular)
             {
+                // printf("%i: %i;%i\n", tempmatrix[pos[0] + dir[0]][pos[1] + dir[1]], pos[0] + dir[0], pos[1] + dir[1]);
+                // for (int i = 0; i < MSIZE; i++)
+                // {
+                //     for (int j = 0; j < MSIZE; j++)
+                //     {
+                //         if (lines[i][j] == '#')
+                //         {
+                //             printf("# ");
+                //         }
+                //         else if (tempmatrix[i][j] == 0 && lines[i][j] == 0)
+                //         {
+                //             printf(". ");
+                //         }
+                //         else
+                //         {
+                //             printf("%i ", tempmatrix[i][j]);
+                //         }
+                //     }
+                //     printf("\n");
+                // }
+                // printf("\n\n");
+                // char a;
                 sum += 1;
             }
             dir[0] = tempdir[0];
@@ -104,7 +145,7 @@ int main()
             {
                 distinct++;
             }
-            lines[y][x] |= arr_to_enum(&dir) << 4;
+            lines[y][x] |= arr_to_enum(&dir);
             pos[0] = y;
             pos[1] = x;
         }
