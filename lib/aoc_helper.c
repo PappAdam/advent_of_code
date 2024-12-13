@@ -3,6 +3,7 @@
 DEFINE_VEC(string);
 DEFINE_VEC(stringVector);
 DEFINE_VEC(uint32_t);
+DEFINE_VEC(uint8_t);
 
 bool is_digit(char c)
 {
@@ -11,9 +12,9 @@ bool is_digit(char c)
 
 void swap(int *a, int *b)
 {
-    int ptr = *a;
+    int value = *a;
     *a = *b;
-    *b = ptr;
+    *b = value;
 }
 
 void sort_array(uint32_t *array, size_t len)
@@ -87,6 +88,25 @@ int to_int(char *input)
         neg = 1;
     }
     int res = 0;
+    size_t len = strlen(input);
+    for (int i = 0; i < len && is_digit(input[i + neg]); i++)
+    {
+        res *= 10;
+        res += input[i + neg] - 48;
+    }
+
+    return res * -(neg * 2 - 1);
+}
+
+uint64_t to_insanely_fucking_long(char *input)
+{
+
+    uint64_t neg = 0;
+    if (input[0] == '-')
+    {
+        neg = 1;
+    }
+    uint64_t res = 0;
     size_t len = strlen(input);
     for (int i = 0; i < len && is_digit(input[i + neg]); i++)
     {
