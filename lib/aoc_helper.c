@@ -4,10 +4,26 @@ DEFINE_VEC(string);
 DEFINE_VEC(stringVector);
 DEFINE_VEC(uint32_t);
 DEFINE_VEC(uint8_t);
+DEFINE_VEC(uint64_t);
 
 bool is_digit(char c)
 {
     return (c >= '0' && c <= '9');
+}
+
+uint32_t digit_count(char *c)
+{
+    uint32_t len = strlen(c);
+    uint32_t res = 0;
+    for (int i = 0; i < len; i++)
+    {
+        if (is_digit(c[i]))
+        {
+            res++;
+        }
+    }
+
+    return res;
 }
 
 void swap(int *a, int *b)
