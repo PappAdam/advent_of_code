@@ -4,16 +4,17 @@
 
 bool inside_bounds(int y, int x)
 {
-    return y > -1 && y < MSIZE && x > -1 && x < MSIZE;
+    return y >= 0 && y < MSIZE && x >= 0 && x < MSIZE;
 }
+
+char matrix[MSIZE][MSIZE] = {0};
+char anode[MSIZE][MSIZE] = {0};
 
 int main()
 {
     FileReader reader = new_reader("day_8/input");
 
     uint64_t anode_count = 0;
-    char matrix[MSIZE][MSIZE] = {0};
-    char anode[MSIZE][MSIZE] = {0};
     for (int y = 0; get_next_line(&reader); y++)
     {
         for (int x = 0; x < MSIZE; x++)
@@ -50,8 +51,34 @@ int main()
                             int dy = sy - y;
                             int dx = sx - x;
 
-                            int step_to_zero_y = y / dy;
-                            int step_to_zero_x = x / dx;
+                            int ay = y - dy;
+                            int ax = x - dx;
+                            printf("%i, %i\n", dy, dx);
+                            while (inside_bounds(ay, ax))
+                            {
+                                if (anode[ay][ax] == 0)
+                                {
+                                    anode[ay][ax] = '#';
+                                    anode_count++;
+                                }
+
+                                ay -= dy;
+                                ax -= dx;
+                            }
+
+                            ay = y;
+                            ax = x;
+                            while (inside_bounds(ay, ax))
+                            {
+                                if (anode[ay][ax] == 0)
+                                {
+                                    anode[ay][ax] = '#';
+                                    anode_count++;
+                                }
+
+                                ay += dy;
+                                ax += dx;
+                            }
                         }
                     }
                 }
@@ -63,9 +90,13 @@ int main()
     {
         for (int x = 0; x < MSIZE; x++)
         {
-            if (anode[y][x] == 0)
+            if (matrix[y][x] == 0 && anode[y][x] == 0)
             {
                 printf(".");
+            }
+            else if (matrix[y][x])
+            {
+                printf("%c", matrix[y][x]);
             }
             else
             {
