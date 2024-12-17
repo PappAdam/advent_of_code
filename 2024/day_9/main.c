@@ -20,23 +20,10 @@ int main()
         alternate = !alternate;
     }
 
-    // for (int i = 0; i < vec.len; i++)
-    // {
-    //     if (vec.ptr[i] == UINT32_MAX)
-    //     {
-    //         printf(". ");
-    //     }
-    //     else
-    //     {
-    //         printf("%i ", vec.ptr[i]);
-    //     }
-    // }
-    // printf("\n");
     uint32_t bwd_i = vec.len - 1;
-    uint32_t result = 0;
+    uint64_t result = 0;
     for (int i = 0; i < bwd_i; i++)
     {
-
         if (vec.ptr[i] == UINT32_MAX)
         {
             while (vec.ptr[bwd_i] == UINT32_MAX)
@@ -48,20 +35,8 @@ int main()
         }
         result += i * vec.ptr[i];
     }
-    // for (int i = 0; i < vec.len; i++)
-    // {
-    //     if (vec.ptr[i] == UINT32_MAX)
-    //     {
-    //         printf(". ");
-    //     }
-    //     else
-    //     {
-    //         printf("%i ", vec.ptr[i]);
-    //     }
-    // }
-    // printf("\n");
 
-    printf("%i\n", result);
+    printf("%lld\n", result);
 
     drop_file(&reader);
 }
