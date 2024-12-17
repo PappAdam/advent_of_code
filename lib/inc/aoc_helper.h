@@ -9,6 +9,7 @@ DEFINE_VEC_HEADER(string);
 DEFINE_VEC_HEADER(stringVector);
 DEFINE_VEC_HEADER(uint32_t);
 DEFINE_VEC_HEADER(uint8_t);
+DEFINE_VEC_HEADER(char);
 DEFINE_VEC_HEADER(uint64_t);
 
 bool is_digit(char c);

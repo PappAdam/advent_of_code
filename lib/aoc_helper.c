@@ -4,6 +4,7 @@ DEFINE_VEC(string);
 DEFINE_VEC(stringVector);
 DEFINE_VEC(uint32_t);
 DEFINE_VEC(uint8_t);
+DEFINE_VEC(char);
 DEFINE_VEC(uint64_t);
 
 bool is_digit(char c)
